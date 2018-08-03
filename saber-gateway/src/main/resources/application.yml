@@ -1,0 +1,70 @@
+server:
+  port: 8761
+spring:
+  application:
+      name: saber-gateway
+  redis:
+      database: 1
+      host: 10.121.30.62
+      port: 20881
+      password: 111111
+      jedis:
+        pool:
+            max-active: 20
+  sleuth:
+    enabled: true
+    http:
+      legacy:
+        enabled: true
+  cloud:
+    consul:
+      discovery:
+        healthCheckPath: /health #consul健康检测时调用的方法
+        healthCheckInterval: 15s #consul健康检测周期，这里是15秒检测一次
+    gateway:
+      routes:
+      #第一个路由配置
+      - id: auth-route
+        uri: lb://saber-auth
+        predicates:
+        - Path=/auth/**
+        filters:
+        - name: RequestRateLimiter #默认提供的基于redis的限流过滤器
+          args:
+            redis-rate-limiter.replenishRate: 1 #令牌桶每秒填充1个令牌
+            redis-rate-limiter.burstCapacity: 2 #令牌桶最多容纳2个令牌
+            key-resolver: "#{@hostKeyResolver}" #使用自定义的限速策略hostKeyResolver
+        - name: Hystrix #默认提供的断路器
+          args:
+            name: fallbackcmd
+            fallbackUri: forward:/myfallback #使用自定义的fallback
+        - StripPrefix=1 #忽略Path的前1级路径，为2则忽略Path的前2级路径
+      #第二个路由配置
+      - id: user-route
+        uri: lb://saber-user
+        predicates:
+        - Path=/user/**
+        filters:
+        - StripPrefix=1 
+        
+#请求和响应GZIP压缩支持
+feign:
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+  compression:
+    request:
+      enabled: true
+      mime-types: text/xml,application/xml,application/json
+      min-request-size: 2048
+    response:
+      enabled: true
+
+logging:
+  level:
+    com.github.saber.gateway: debug
+
+management:
+  security:
+    enabled: false

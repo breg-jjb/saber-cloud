@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: saber-auth
+  cloud:
+    consul:
+      discovery:
+        healthCheckPath: /health
+        healthCheckInterval: 15s
+server:
+  port: 8762 #启动端口
+
+logging:
+  level:
+    com.github.saber.auth: info
+    
+management:
+  security:
+    enabled: false

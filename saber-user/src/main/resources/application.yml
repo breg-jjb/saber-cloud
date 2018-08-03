@@ -1,0 +1,7 @@
+spring:
+    application:
+        name: saber-user
+        
+server:
+    port: 8763 #启动端口
+
