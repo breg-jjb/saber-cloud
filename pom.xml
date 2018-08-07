@@ -21,8 +21,8 @@
         <module>saber-gateway</module>
         <module>saber-auth</module>
 		<module>saber-user</module>
+        <module>saber-common</module>
         <!--
-        <module>ace-common</module>
         <module>ace-sidecar</module>
         <module>ace-control</module>
         <module>ace-modules</module>
@@ -35,7 +35,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.16.14</version>
             <scope>provided</scope>
         </dependency>
         
@@ -63,11 +62,30 @@
                 <artifactId>fastjson</artifactId>
                 <version>1.2.33</version>
             </dependency>
+	        <!-- Mysql Connector -->
+	        <dependency>
+	            <groupId>mysql</groupId>
+	            <artifactId>mysql-connector-java</artifactId>
+	            <version>8.0.12</version>
+	        </dependency>
+        	<!-- 数据库连接池 -->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid</artifactId>
-                <version>1.0.11</version>
+                <version>1.1.10</version>
             </dependency>
+	        <!-- MybatisPlus -->
+	        <dependency>
+	            <groupId>com.baomidou</groupId>
+	            <artifactId>mybatis-plus-boot-starter</artifactId>
+	            <version>2.3</version>
+	        </dependency>
+	        <!-- 模板引擎 mybaits代码自动生成插件需要用到-->
+			<dependency>
+			    <groupId>org.apache.velocity</groupId>
+			    <artifactId>velocity-engine-core</artifactId>
+			    <version>2.0</version>
+			</dependency>
         </dependencies>
     </dependencyManagement>
 

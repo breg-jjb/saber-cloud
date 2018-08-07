@@ -19,7 +19,7 @@ import reactor.core.publisher.Mono;
 @RestController
 public class UserServerBootstrap {
     
-    @RequestMapping("/")
+    @RequestMapping("/health")
     public Mono<String> home() {
         return Mono.just("Hello World,I'm UserServer");
     }

@@ -45,6 +45,10 @@ spring:
         predicates:
         - Path=/user/**
         filters:
+        - name: Hystrix #默认提供的断路器
+          args:
+            name: fallbackcmd
+            fallbackUri: forward:/myfallback #使用自定义的fallback
         - StripPrefix=1 
         
 #请求和响应GZIP压缩支持
